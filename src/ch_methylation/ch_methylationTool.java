@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -56,9 +55,15 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import ch_methylation.FileCellRenderer;
 import ch_methylation.ListTransferHandler;
 
+
+/**
+ * TODO
+ * @author mischa.lundberg
+ *
+ */
 public class ch_methylationTool extends JPanel implements ActionListener {
     /**
-	 * 
+	 * TODO
 	 */
 	private static final long serialVersionUID = 1L;
 	JFileChooser fc;
@@ -79,11 +84,15 @@ public class ch_methylationTool extends JPanel implements ActionListener {
     int[][] emptyOutput = new int[][] {{}};
 	int[] emptyOutputShort = new int[] {};
 
-    JList dropZone;
-    DefaultListModel listModel;
+    JList<File> dropZone;
+    DefaultListModel<File> listModel;
     JSplitPane childSplitPane, parentSplitPane;
     PrintStream ps;
 
+    
+  /**
+   * TODO
+   */
   public ch_methylationTool() {
     super(new BorderLayout());
 
@@ -241,8 +250,8 @@ public class ch_methylationTool extends JPanel implements ActionListener {
     
     JPanel leftUpperPanel = new JPanel(new BorderLayout());
     JScrollPane leftLowerPanel = new javax.swing.JScrollPane();
-    listModel = new DefaultListModel();
-    dropZone = new JList(listModel);
+    listModel = new DefaultListModel<File>();
+    dropZone = new JList<File>(listModel);
     dropZone.setCellRenderer(new FileCellRenderer());
     dropZone.setTransferHandler(new ListTransferHandler(dropZone));
     dropZone.setDragEnabled(true);
@@ -279,7 +288,13 @@ public class ch_methylationTool extends JPanel implements ActionListener {
     
 }
   
-  
+/**
+ * TODO
+ * @param outputString
+ * @param outputCompilation
+ * @param filename
+ * @throws IOException
+ */
 public void saveToDOCX (String outputString, ArrayList<int[][]> outputCompilation, String filename) throws IOException {
 	
 	File tmpOutFile = new File(filename);
@@ -455,8 +470,12 @@ public void saveToDOCX (String outputString, ArrayList<int[][]> outputCompilatio
 		document.close();
 }
   
-/*
+/**
  * TODO
+ * @param outputString
+ * @param outputCompilation
+ * @param filename
+ * @throws IOException
  */
 public void saveToXLS(String outputString, ArrayList<int[][]> outputCompilation, String filename) throws IOException {
 	
@@ -469,13 +488,14 @@ public void saveToXLS(String outputString, ArrayList<int[][]> outputCompilation,
 	HSSFWorkbook wb = new HSSFWorkbook();
 	HSSFSheet sheet = wb.createSheet(sheetName) ;
 	
-	String[] Header = new String[] {"Alignment Name", "Position (0-Based!!!)", 
+	String[] Header = new String[] {"Path of Alignment", "Alignment Name", "Position (0-Based!!!)", 
 				"Distance to last significant", "Position +/- 4 nucleotides", "cut-off", 
 				"Count of Cs", "Number of Sequences for Alignment", "%" };
 	//System.out.println("output: " + outputString);
 	String[] lines = outputString.split("\n");
 	//System.out.println("outputString.length: " + lines.length + ", lines[0]: " + lines[0]);
 	String fn = "";
+	String an = "";
 	int compilationCounter = 0;
     int[][] output;
     int offset = 4;
@@ -500,6 +520,8 @@ public void saveToXLS(String outputString, ArrayList<int[][]> outputCompilation,
         if (((r-1) % 2) == 0) {
         	output = outputCompilation.get(compilationCounter);
         	fn = lines[r-1].toString();
+        	File FN = new File(fn);
+        	an = FN.getName().toString();
         	compilationCounter ++;
         }
         else {
@@ -539,13 +561,14 @@ public void saveToXLS(String outputString, ArrayList<int[][]> outputCompilation,
 						double percentage = (((double)output[y][2] / output[y][4]) * 100);
 						switch (c){
 							case 0:	cell.setCellValue(fn);
-									//System.out.println(fn.toString());
 									break;
-							case 1:	cell.setCellValue(output[y][0]);
+							case 1:	cell.setCellValue(an);
 									break;
-							case 2:	cell.setCellValue(output[y][1]);
+							case 2:	cell.setCellValue(output[y][0]);
 									break;
-							case 3:	int start = (output[y][0] - offset); 
+							case 3:	cell.setCellValue(output[y][1]);
+									break;
+							case 4:	int start = (output[y][0] - offset); 
 									int end = (output[y][0] + (offset + 1));
 									if (start < 0) {
 										start = 0;
@@ -584,13 +607,13 @@ public void saveToXLS(String outputString, ArrayList<int[][]> outputCompilation,
 									}
 									cell.setCellValue(richString); // lines[r]
 									break;
-							case 4:	cell.setCellValue(output[y][3]);
+							case 5:	cell.setCellValue(output[y][3]);
 									break;
-							case 5:	cell.setCellValue(output[y][2]);
+							case 6:	cell.setCellValue(output[y][2]);
 									break;
-							case 6:	cell.setCellValue(output[y][4]);
+							case 7:	cell.setCellValue(output[y][4]);
 									break;
-							case 7:	cell.setCellValue(percentage);
+							case 8:	cell.setCellValue(percentage);
 									break;
 							default: break;
 						}	
@@ -611,8 +634,10 @@ public void saveToXLS(String outputString, ArrayList<int[][]> outputCompilation,
 	wb.close();
 }
 
-/*
+/**
  * TODO
+ * @param seqCount
+ * @return
  */
 public float getMean(int[] seqCount) {
 	
@@ -624,8 +649,11 @@ public float getMean(int[] seqCount) {
 	return mean;
 }
   
-/*
+/**
  * TODO
+ * @param seqCount
+ * @param seqInnerLength
+ * @return
  */
 public float getStandardDeviation(int[] seqCount, int seqInnerLength) {
 	
@@ -640,31 +668,25 @@ public float getStandardDeviation(int[] seqCount, int seqInnerLength) {
 	return (float) Math.sqrt(standard_deviation);
 }
 
-/*
-public float getStandardDeviationOLD(int[] seqCount, int seqInnerLength) {
-	
-	float standard_deviation = 0;
-	float mean = 0;//getMean(seqCount);
-
-	for(int i : seqCount) {       
-	    //sum += i;
-	    standard_deviation += Math.pow((i-mean), 2);
-	}  
-	System.out.println("how about this?:" + (Math.sqrt(standard_deviation / seqCount.length)) + ", possible?: " + (Math.sqrt(standard_deviation / seqInnerLength) - getMean(seqCount)) + ", standard_deviation: " + Math.sqrt(standard_deviation / (seqInnerLength-1)) + " Math.sqrt(" + standard_deviation + "/" + seqInnerLength + ")"  + ", (inkorrekt)standard_deviation: " + standard_deviation / seqInnerLength + " (" + standard_deviation + "/" + seqInnerLength + ")" + ", mean: " + mean);
-	standard_deviation = standard_deviation / seqInnerLength;// (float) Math.sqrt(standard_deviation / seqInnerLength);
-	return standard_deviation;
-}
-*/
 
 
-/*
+/**
+ * 
+ * Generates an Array of significant positions depending on the input data
+ * 
  * takes seqCount[4] as input
  * returns significant[][]
  * 		[][0] = Position of significant point
  * 		[][1] = Difference to last significant point
- * 		[][2] = Occurence of this CH	
+ * 		[][2] = Occurrence of this CH	
  * 		[][3] = standard deviation
- * 		[][4] = Number of Sequences within Alignment (excluding Genomic)
+ * 		[][4] = Number of Sequences within Alignment (excluding Genomic region)
+ * 
+ * @param seqCount
+ * @param seqLength
+ * @param seqInnerLength
+ * @param percentage
+ * @return
  */
 public int[][] getSignificantPositions(int[] seqCount, int seqLength, int seqInnerLength, int percentage) {
 	
@@ -783,10 +805,15 @@ public int[][] getSignificantPositions(int[] seqCount, int seqLength, int seqInn
 	
 }
   
-  
-  /*
-   * is returning a list of numbers, either 0 if everything OK, or 1 if there is a C instead of a T
-   */
+
+
+/**
+ * Returns a list of numbers, either 0 if everything OK, or 1 if there is a C instead of a T
+ * 
+ * @param seq
+ * @param totalSeqCount
+ * @return
+ */
 public int[][] getCNotGRatio(String seq, int[][] totalSeqCount) {
 	
 	
@@ -837,6 +864,11 @@ public int[][] getCNotGRatio(String seq, int[][] totalSeqCount) {
 }
 
 
+/**
+ * Returns TRUE if the Sequence contains a ">" or FALSE if not. 
+ * @param seq
+ * @return
+ */
 public boolean isFastaFormat(String seq) {
 	
 	return seq.contains(">");
@@ -844,6 +876,12 @@ public boolean isFastaFormat(String seq) {
 }
 
 
+/**
+ * Opens a given Filename and returns a String Array which contains per line in the original file one line in the array.
+ * 
+ * @param fileName
+ * @return
+ */
 public String[] openFile(String fileName) {//, String separator) {
 	
 	
@@ -939,12 +977,18 @@ public String[] openFile(String fileName) {//, String separator) {
 }
 
 
-  
+/**
+ * TODO
+ */
 public void setDefaultButton() {
     getRootPane().setDefaultButton(clear);
     getRootPane().setDefaultButton(revcmplBtn);
 }
 
+
+/**
+ * TODO
+ */
 public void actionPerformed(ActionEvent e) {
     if (e.getSource() == clear) {
         listModel.clear();
@@ -988,6 +1032,10 @@ private static void createAndShowGUI() {
     demo.setDefaultButton();
 }
 
+/**
+ * 
+ * @param args
+ */
 public static void main(String[] args) {
     //Schedule a job for the event-dispatching thread:
     //creating and showing this application's GUI.
@@ -999,9 +1047,20 @@ public static void main(String[] args) {
 }
 }
 
+
+/**
+ * TODO
+ * @author mischa.lundberg
+ *
+ */
 class FileCellRenderer extends DefaultListCellRenderer {
 
-    public Component getListCellRendererComponent(JList list,
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 312316867890154558L;
+
+	public Component getListCellRendererComponent(JList<?> list,
         Object value,
         int index,
         boolean isSelected,
@@ -1022,12 +1081,20 @@ class FileCellRenderer extends DefaultListCellRenderer {
     }
 }
 
-
+/**
+ * TODO
+ * @author mischa.lundberg
+ *
+ */
 class ListTransferHandler extends TransferHandler {
 
-    private JList list;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1156880528033367512L;
+	private JList<File> list;
 
-    ListTransferHandler(JList list) {
+    ListTransferHandler(JList<File> list) {
         this.list = list;
     }
 
@@ -1059,7 +1126,7 @@ class ListTransferHandler extends TransferHandler {
             data = (List<File>)t.getTransferData(DataFlavor.javaFileListFlavor);
         }
         catch (Exception e) { return false; }
-        DefaultListModel model = (DefaultListModel) list.getModel();
+        DefaultListModel<File> model = (DefaultListModel<File>) list.getModel();
         for (Object file : data) {
             model.addElement((File)file);
         }
