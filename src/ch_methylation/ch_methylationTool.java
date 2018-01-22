@@ -223,8 +223,8 @@ public class ch_methylationTool extends JPanel implements ActionListener {
 					
 					
 				}
-				console.append("\nRuns with Problems: " + runsWithProblems + "/" + listModel.getSize() 
-					+ "\nRuns without Problems: " + runsWithoutProblems + "/" + listModel.getSize());
+				console.append("\nRuns with problems: " + runsWithProblems + "/" + listModel.getSize() 
+					+ "\nRuns without problems: " + runsWithoutProblems + "/" + listModel.getSize());
 
 				/*
 				 * Call saveToDocx and saveToXLS
@@ -232,17 +232,21 @@ public class ch_methylationTool extends JPanel implements ActionListener {
 				try {
 					saveToDOCX (outputString, outputCompilation, listModel.get(0).toString());
 				} catch (IOException e2) {
+					console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 					console.append("Error while saving the .docx file! Please ensure that the file is closed!");
+					console.append("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 					e2.printStackTrace();
 				}
 				try {
 					saveToXLS (outputString, outputCompilation, listModel.get(0).toString());
 				} catch (IOException e1) {
+					console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 					console.append("Error while saving the .xls file! Please ensure that the file is closed!");
+					console.append("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 					e1.printStackTrace();
 				}
 
-				console.append("\n\n\nFINISHED with the current job!\n\n Buy me a cookie :)");
+				console.append("\n\n\nFINISHED with the current job!\n\nBuy me a cookie :)");
         	}
 
         } 
@@ -282,7 +286,7 @@ public class ch_methylationTool extends JPanel implements ActionListener {
     add(parentSplitPane, BorderLayout.CENTER);
     
     console.append("This tool calculates the CH-Methylation ratio of given Alignments. "
-    		+ "\n\n Drop your files into the \"" + borderTitle + "\" window and press \""
+    		+ "\n\nDrop your files into the \"" + borderTitle + "\" window and press \""
     				+ "Calculate CH-Methylation ratio\" as soon as you are done\n\n");
     parentSplitPane.validate();
     
@@ -894,7 +898,10 @@ public String[] openFile(String fileName) {//, String separator) {
 		sc = new Scanner(FN);
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
+		console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		console.append("Could not access the file: " + fileName);
+		console.append("\nPlease check if the file is not opened and still at it's location");
+		console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		System.out.println("Exception ");
 	    System.out.println(e.getMessage());
 	}
