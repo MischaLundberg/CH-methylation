@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mischalundberg/ch-methylation.svg?branch=master)](https://travis-ci.org/mischalundberg/ch-methylation)
 
-Contact: mischa.lundberg@mater.uq.edu.au
+Contact: mischa.lundberg at mater.uq.edu.au
 
 *Tool for analysing CH-Methylation status of several sequences at once*
 
@@ -52,3 +52,6 @@ The Excel file contains
 * Reading .ab1 files
 * Showing chromatograph for selecting parts to exclude
 * Automaticaly detect parts to exclude
+
+# Report an Issue
+If you have any questions or suggestion, please feel free to contact me (mischa.lundberg at mater.uq.edu.au), create an issue or send a pull request 
