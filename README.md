@@ -4,7 +4,7 @@
 
 Contact: mischa.lundberg at mater.uq.edu.au
 
-*Tool for analysing CH-Methylation status of several sequences at once*
+*Tool for analysing CH methylation status of several sequences at once*
 
 # Prerequisites:
 
@@ -18,7 +18,7 @@ Main dialog :
 
 ![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/main.PNG "Main dialog")
 
-Drag and Drop your files : 
+Drag and Drop your files, adjust the cut-off (min % of methylation) : 
 
 ![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/drag_n_drop.png "Drag and Drop your files")
 
@@ -36,13 +36,13 @@ The Word file contains the complete sequences with Methylated nucleotides highli
 
 The Excel file contains 
 * Path of Alignment file 
-* Name of file 
-* Position of methylated nucleotide 
-* Distance to last methylated nucleotide (or to the start) 
+* Name of Alignment file 
+* Position of methylated nucleotide (0-Based)
+* Distance to last methylated (significant) nucleotide (or to the start of the sequence) 
 * Sequence +/- 4 nucleotides from the methylated nucleotide 
 * The preset cut-off for insignifant methylation stages 
 * Count of methylated nucleotides over the spartial sequences 
-* Number of nucleotides 
+* Number of sequences used for Alignment 
 * Percent of methylation 
  
 ![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/excel.PNG "The Excel file contains the partial sequences with Methylated nucleotides highlighted")
@@ -54,4 +54,6 @@ The Excel file contains
 * Automaticaly detect parts to exclude
 
 # Report an Issue
-If you have any questions or suggestion, please feel free to contact me (mischa.lundberg at mater.uq.edu.au), create an issue or send a pull request 
+If you have any questions or suggestion, please feel free to contact me (mischa.lundberg at mater.uq.edu.au), create an issue or send a pull request.
+
+## Don't forget to cite
