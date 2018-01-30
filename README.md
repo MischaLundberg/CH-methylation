@@ -14,6 +14,9 @@ Contact: mischa.lundberg at mater.uq.edu.au
 
 # Documentation:
 
+The automatic cut-off is calculated by +3SD (mean + 3 * standard deviation).
+The cut-off can be changed by changing the value of "Min percentage of methylation (0-100):" to something else than 0.
+
 Main dialog : 
 
 ![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/main.PNG "Main dialog")

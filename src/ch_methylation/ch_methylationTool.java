@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -105,7 +104,7 @@ public class ch_methylationTool extends JPanel implements ActionListener {
     JPanel fcPanel = new JPanel(new BorderLayout());
     fcPanel.add(fc, BorderLayout.CENTER);
     
-    JLabel label = new JLabel("Min percentage of Methylation (0-100): ");
+    JLabel label = new JLabel("Min percentage of methylation (0-100): ");
     minPercentage = new JFormattedTextField("0");
     minPercentage.setValue("0");
     JLabel label2 = new JLabel("Outputfilename : ");
@@ -133,7 +132,7 @@ public class ch_methylationTool extends JPanel implements ActionListener {
     buttonPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
     buttonPanel.add(clear, BorderLayout.LINE_END);
     
-    revcmplBtn = new JButton("Calculate CH-Methylation ratio");
+    revcmplBtn = new JButton("Calculate CH methylation ratio");
     revcmplBtn.addActionListener(new ActionListener() { 
     	
         public void actionPerformed(ActionEvent e) { 
@@ -144,7 +143,7 @@ public class ch_methylationTool extends JPanel implements ActionListener {
         	}
         	else {
         		console.setText(null);
-	        	console.append("Starting to calculate CH-Methylation ratio\n\nPELASE REMEMBER, " + 
+	        	console.append("Starting to calculate CH methylation ratio\n\nPELASE REMEMBER, " + 
 	        			"THE POSITIONS GIVEN ARE 0 BASED (STARTS ALWAYS WITH 0 NOT 1)!\n");
 	        	console.append("Running now: \n");
 	        	
@@ -233,16 +232,16 @@ public class ch_methylationTool extends JPanel implements ActionListener {
 					saveToDOCX (outputString, outputCompilation, listModel.get(0).toString());
 				} catch (IOException e2) {
 					console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-					console.append("Error while saving the .docx file! Please ensure that the file is closed!");
-					console.append("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+					console.append("Error while saving the .docx file! Please ensure that the file is closed and still at it's location and start over!");
+					console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 					e2.printStackTrace();
 				}
 				try {
 					saveToXLS (outputString, outputCompilation, listModel.get(0).toString());
 				} catch (IOException e1) {
 					console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-					console.append("Error while saving the .xls file! Please ensure that the file is closed!");
-					console.append("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+					console.append("Error while saving the .xls file! Please ensure that the file is closed and still at it's location and start over!");
+					console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 					e1.printStackTrace();
 				}
 
@@ -285,9 +284,9 @@ public class ch_methylationTool extends JPanel implements ActionListener {
     parentSplitPane.revalidate();//scrollRectToVisible(getVisibleRect());
     add(parentSplitPane, BorderLayout.CENTER);
     
-    console.append("This tool calculates the CH-Methylation ratio of given Alignments. "
+    console.append("This tool calculates the CH methylation ratio of given Alignments. "
     		+ "\n\nDrop your files into the \"" + borderTitle + "\" window and press \""
-    				+ "Calculate CH-Methylation ratio\" as soon as you are done\n\n");
+    				+ "Calculate CH methylation ratio\" as soon as you are done\n\n");
     parentSplitPane.validate();
     
 }
@@ -351,7 +350,7 @@ public void saveToDOCX (String outputString, ArrayList<int[][]> outputCompilatio
  			paragraphOneRunOne.setBold(true);
 	        paragraph.addRun(paragraphOneRunOne);
 	        paragraphOneRunOne = paragraph.createRun();
-	        paragraphOneRunOne.setText(" of CH-Methylation"); 
+	        paragraphOneRunOne.setText(" of CH methylation"); 
 	        paragraphOneRunOne.setColor(black);
 	        paragraph.addRun(paragraphOneRunOne);
 	        paragraphOneRunOne = paragraph.createRun();
@@ -377,7 +376,6 @@ public void saveToDOCX (String outputString, ArrayList<int[][]> outputCompilatio
 	        		output = new int[][] {,};
 	        	}
 	         	paragraphOneRunOne.addBreak();
-	         	
 	         	if (output.length != 0 && !lines[t].contains(">") && !Arrays.equals(output,emptyOutput)) {
 	         		//System.out.println("output.length: " + output.length);
 	         		for (int y = 0; y < output.length ; y++) {
@@ -451,6 +449,10 @@ public void saveToDOCX (String outputString, ArrayList<int[][]> outputCompilatio
 		         				paragraphOneRunOne = paragraph.createRun();
 		     				}
 	         			}
+	         			else {
+	    		      		paragraphOneRunOne.setText("Cut-off is too high for this dataset. Consider to adjust the pre-setting.", 0);
+	    		      	}
+	    	         	
 	         		}
 	         		
 	         	}
@@ -643,13 +645,13 @@ public void saveToXLS(String outputString, ArrayList<int[][]> outputCompilation,
  * @param seqCount
  * @return
  */
-public float getMean(int[] seqCount) {
+public double getMean(int[] seqCount) {
 	
-	float sum = 0 ;
+	double sum = 0 ;
 	for (int i : seqCount) {       
 	    sum += i;
 	}
-	float mean = sum / seqCount.length;
+	double mean = sum / seqCount.length;
 	return mean;
 }
   
@@ -659,20 +661,17 @@ public float getMean(int[] seqCount) {
  * @param seqInnerLength
  * @return
  */
-public float getStandardDeviation(int[] seqCount, int seqInnerLength) {
+public double getStandardDeviation(int[] seqCount, int seqInnerLength) {
 	
-	float standard_deviation = 0;
-	float mean = getMean(seqCount);
+	double standard_deviation = 0;
+	double mean = getMean(seqCount);
 
 	for(int i : seqCount) {       
 	    standard_deviation += Math.pow((i-mean), 2);
 	}  
-	System.out.println("how about this?:" + (Math.sqrt(standard_deviation / seqCount.length)) + ", possible?: " + (Math.sqrt(standard_deviation / seqInnerLength) - getMean(seqCount)) + ", standard_deviation: " + Math.sqrt(standard_deviation / (seqInnerLength-1)) + " Math.sqrt(" + standard_deviation + "/" + seqInnerLength + ")"  + ", (inkorrekt)standard_deviation: " + standard_deviation / seqInnerLength + " (" + standard_deviation + "/" + seqInnerLength + ")" + ", mean: " + mean);
-	standard_deviation = standard_deviation / seqInnerLength;// (float) Math.sqrt(standard_deviation / seqInnerLength);
-	return (float) Math.sqrt(standard_deviation);
+	standard_deviation = standard_deviation / seqInnerLength;
+	return Math.sqrt(standard_deviation);
 }
-
-
 
 /**
  * 
@@ -695,15 +694,22 @@ public float getStandardDeviation(int[] seqCount, int seqInnerLength) {
 public int[][] getSignificantPositions(int[] seqCount, int seqLength, int seqInnerLength, int percentage) {
 	
 
-	float standard_deviation = getStandardDeviation(seqCount, seqInnerLength);	
+	double standard_deviation = getStandardDeviation(seqCount, seqInnerLength);	
+	//double regression = getRegression(seqCount, seqInnerLength); //getTTestValue(seqCount, seqInnerLength);	
 	int lastSignificantPos = 0;
 	int tmpCount = 0;
 	int min = 100;
 	int max = 0;
+	double mean = getMean(seqCount);
+	//double meansd = mean + standard_deviation; //1st standard deviation above
+	//double mean2sd = mean + (2 * standard_deviation); //2nd standard deviation above 
+	double mean3sd = mean + (3 * standard_deviation); //3rd standard deviation above
+	
+	standard_deviation = mean3sd;
 	
 	for (int i = 0; i < seqCount.length; i++) {
 		//System.out.println("seqCount[i] > ((percentage * seqLength) / 100): " + seqCount[i] + ">=" + ((percentage * seqLength) / 100));
-		if (seqCount[i] > standard_deviation && seqCount[i] >= ((percentage * seqLength) / 100)) {			
+		if (seqCount[i] > standard_deviation && seqCount[i] >= ((percentage * seqLength) / 100)) {	//regression || (percentage > 0 && seqCount[i] >= ((percentage * seqLength) / 100))) {	//		
 			tmpCount ++;
 			if (seqCount[i] > max) { 
 				max = seqCount[i];
@@ -721,90 +727,30 @@ public int[][] getSignificantPositions(int[] seqCount, int seqLength, int seqInn
 	
 	for (int i = 0; i < seqCount.length; i++) {
 		
-		if (seqCount[i] > standard_deviation && seqCount[i] >= ((percentage * seqLength) / 100)) {
+		if (seqCount[i] > standard_deviation && seqCount[i] >= ((percentage * seqLength) / 100)) {//regression || (percentage > 0 && seqCount[i] >= ((percentage * seqLength) / 100))) {//
 			
 			//System.out.println("Is significant position: " + i + ", count: " + seqCount[i] + 
-			//	", difference to las Significant: " + (i-lastSignificantPos) + ", cut-off (standard deviation) is: " + standard_deviation);
-			output[tmpCount] = new int[] {i,(i-lastSignificantPos),seqCount[i],(int) standard_deviation, seqLength};
+			//	", difference to last Significant: " + (i-lastSignificantPos) + ", cut-off (standard deviation) is: " + standard_deviation);
+			int cut_off = (int) standard_deviation; //(int) regression;
+			if (percentage > 0) {
+				cut_off = percentage;
+			}
+			output[tmpCount] = new int[] {i,(i-lastSignificantPos),seqCount[i],cut_off, seqLength};//standard_deviation, seqLength};
 			tmpOutput[tmpCount] = seqCount[i];
 			lastSignificantPos = i;
 			tmpCount ++;
 		}
 	}
-	
-	float new_standard_deviation = 0;
-	if (tmpCount > 3 && standard_deviation < (seqCount.length*0.1)) {
-		if (min == Math.round(standard_deviation)) {
-			System.out.println("tmpOutput.length: " + tmpOutput.length + ", tmpOutput: " + Arrays.toString(tmpOutput) + ", lowest: " + min + ", highest: " + max);
-			new_standard_deviation = getStandardDeviation(tmpOutput, tmpOutput.length);
-			System.out.println("old standard_deviation: " + standard_deviation + ", new standard_deviation: " + new_standard_deviation);
-		}
+		
+	if (output.length == 0) {
+		output = new int[][] {{}};//0,0,0,(int) standard_deviation, seqLength}};
+		System.out.println("significant: " + Arrays.toString(output[0]));
 	}
-	
-	if (new_standard_deviation > 0 && new_standard_deviation < max){
-		
-		int diffCount = 0;
-		int lastCount = 0;
-		int diff = 0;
-		int outputCounter = 0;
-		
-		for (int y = 0 ; y < output.length; y ++) {
-			
-			if (output[y][2] > new_standard_deviation) {
-				outputCounter ++;
-			}
-		}
-		
-		int[][] newOutput = new int[outputCounter][5];
-		outputCounter = 0;
-		
-		for (int y = 0 ; y < output.length; y ++) {
-			
-			if (output[y][2] > new_standard_deviation) {
-				
-				if ((output[y][1] + diffCount) > output[y][0]) {
-					diff = output[y][0];
-				}
-				else {
-					diff = (output[y][1] + diffCount);
-				}
-				newOutput[outputCounter] = new int[] {output[y][0],diff,output[y][2],output[y][3],output[y][4],};
-				//System.out.println(Arrays.toString(newOutput[outputCounter]));
-				//System.out.println("Is significant position: " + output[y][0] + ", count: " + output[y][2] + ", difference to last Significant: " + diff + ", cut-off (standard deviation) is: " + new_standard_deviation);
-				lastCount = output[y][0];
-				outputCounter ++;
-			}
-			else {
-				diffCount = (output[y][0] - lastCount);
-			}
-			
-			output[y][3] = (int) new_standard_deviation;
-			output[y][4] = seqLength;
-			
-		}
-		
-		if (newOutput.length == 0) {
-			newOutput = new int[][] {{}};//0,0,0,(int) new_standard_deviation, seqLength}};
-			System.out.println("significant: " + Arrays.toString(output[4]));
-			return newOutput;
-		}
-		else{
-			System.out.println("significant: " + Arrays.toString(output[4]));
-			return newOutput;
-		}
+	else{
+		System.out.println("significant: " + Arrays.toString(output[0]));
 	}
-	
-	else {
-		if (output.length == 0) {
-			output = new int[][] {{}};//0,0,0,(int) standard_deviation, seqLength}};
-			System.out.println("significant: " + Arrays.toString(output[0]));
-			return output;
-		}
-		else{
-			System.out.println("significant: " + Arrays.toString(output[0]));
-			return output;
-		}
-	}
+
+	return output;
 	//System.out.println("significant: " + Arrays.toString(output[3]));
 	
 }
@@ -898,10 +844,10 @@ public String[] openFile(String fileName) {//, String separator) {
 		sc = new Scanner(FN);
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
-		console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+		console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		console.append("Could not access the file: " + fileName);
-		console.append("\nPlease check if the file is not opened and still at it's location");
-		console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+		console.append("\nPlease check if the file is not opened and still at it's location and start over.");
+		console.append("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		System.out.println("Exception ");
 	    System.out.println(e.getMessage());
 	}
@@ -1000,7 +946,7 @@ public void actionPerformed(ActionEvent e) {
     if (e.getSource() == clear) {
         listModel.clear();
         console.setText(null);
-        console.append("Drop your files into the \"" + borderTitle + "\" window and press \"Calculate CH-Methylation ratio\" as soon as you are done\n\n");
+        console.append("Drop your files into the \"" + borderTitle + "\" window and press \"Calculate CH methylation ratio\" as soon as you are done\n\n");
     }
 }
 
@@ -1025,7 +971,7 @@ private static void createAndShowGUI() {
     }
 
     //Create and set up the window.
-    JFrame frame = new JFrame("Calculate CH-Methylation ratio");
+    JFrame frame = new JFrame("Calculate CH methylation ratio");
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     //Create and set up the menu bar and content pane.
