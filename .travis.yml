@@ -1,5 +1,13 @@
 language: java
 sudo: false
+install: ant deps
 
-jdk: openjdk7
-after_script: npm run coveralls
+jdk:
+  - oraclejdk8
+  - oraclejdk9
+  - openjdk7
+  
+ant test
+
+after_script:
+  - npm run coveralls
