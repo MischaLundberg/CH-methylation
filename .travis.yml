@@ -1,7 +1,5 @@
 language: java
 sudo: false
 
-jdk:
-  - oraclejdk8
-after_script:
-  - npm run coveralls
+jdk: openjdk7
+after_script: npm run coveralls
