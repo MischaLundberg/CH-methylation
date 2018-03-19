@@ -1,6 +1,7 @@
 ## ch-methylation 
 
-[![Build Status](https://travis-ci.org/mischalundberg/ch-methylation.svg?branch=master)](https://travis-ci.org/mischalundberg/ch-methylation)
+[![Build Status](https://travis-ci.org/MischaLundberg/ch-methylation.svg?branch=master)](https://travis-ci.org/MischaLundberg/ch-methylation)
+[![Coverage Status](https://coveralls.io/repos/github/MischaLundberg/ch-methylation/badge.svg?branch=master)](https://coveralls.io/github/MischaLundberg/ch-methylation?branch=master)
 
 Contact: mischa.lundberg at mater.uq.edu.au
 
