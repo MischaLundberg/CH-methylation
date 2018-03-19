@@ -6,8 +6,8 @@ jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk7
-  
-ant test
+script:  
+  - ant test
 
 after_script:
   - npm run coveralls
