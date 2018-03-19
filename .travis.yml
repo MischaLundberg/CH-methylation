@@ -5,6 +5,9 @@ jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk7
+  
+script:
+  - ant ch_methylationTest
 
 after_script:
   - npm run coveralls
