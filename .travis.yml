@@ -1,13 +1,10 @@
 language: java
 sudo: false
-install: ant deps
 
 jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk7
-script:  
-  - ant test
 
 after_script:
   - npm run coveralls
