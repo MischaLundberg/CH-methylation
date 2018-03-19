@@ -93,7 +93,7 @@ public class ch_methylationTest {
 			methtool.clear.doClick();
 			methtool.revcmplBtn.doClick();
 			assertEquals("Drop your files into the \"" + methtool.borderTitle + "\" window and press \"" + 
-								 "Calculate CH-Methylation ratio\" as soon as you are done\n\nYou didn't drop any files into the \"" + 
+								 "Calculate CH methylation ratio\" as soon as you are done\n\nYou didn't drop any files into the \"" + 
 								 methtool.borderTitle + "\" window. \n Please drop your files from your Windows-Explorer. \n"
 								 ,methtool.console.getText());
 			
