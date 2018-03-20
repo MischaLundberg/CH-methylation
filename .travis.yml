@@ -5,6 +5,9 @@ jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk7
+
+before_install:
+- sudo apt-get install ant-optional
   
 script:
   - ant ch_methylationTest
