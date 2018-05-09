@@ -20,23 +20,23 @@ The cut-off can be changed by changing the value of "Min percentage of methylati
 
 Main dialog : 
 
-![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/main.PNG "Main dialog")
+!["Main dialog"](gfx/main.PNG "Main dialog")
 
 Drag and Drop your files, adjust the cut-off (min % of methylation) : 
 
-![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/drag_n_drop.png "Drag and Drop your files")
+!["Drag and Drop your files"](gfx/drag_n_drop.png "Drag and Drop your files")
 
 Click calculate and see what happens : 
 
-![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/calculated.PNG "Click calculate and see what happens")
+!["Click calculate and see what happens"](gfx/calculated.PNG "Click calculate and see what happens")
 
 The output files will be stored in the same dir as your first dataset comes from : 
 
-![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/output_files.PNG "The output files")
+!["The output files"](gfx/output_files.PNG "The output files")
 
 The Word file contains the complete sequences with Methylated nucleotides highlighted: 
 
-![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/word.png "The Word file")
+!["The Word file"](gfx/word.png "The Word file")
 
 The Excel file contains 
 * Path of Alignment file 
@@ -49,7 +49,7 @@ The Excel file contains
 * Number of sequences used for Alignment 
 * Percent of methylation 
  
-![picture alt](https://github.com/MischaLundberg/ch-methylation/blob/master/gfx/excel.PNG "The Excel file contains the partial sequences with Methylated nucleotides highlighted")
+!["The Excel file contains the partial sequences with Methylated nucleotides highlighted"](gfx/excel.PNG "The Excel file contains the partial sequences with Methylated nucleotides highlighted")
 
 # Steps of further development:
 
