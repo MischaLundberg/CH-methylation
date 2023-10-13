@@ -1,6 +1,6 @@
 ## ch-methylation 
 
-[![DOI](https://zenodo.org/badge/114314740.svg)](https://zenodo.org/badge/latestdoi/114314740)
+[![DOI](https://zenodo.org/badge/114314740.svg)](https://zenodo.org/doi/10.5281/zenodo.7428676)
 [![Build Status](https://travis-ci.org/MischaLundberg/CH-methylation.svg?branch=master)](https://travis-ci.org/MischaLundberg/CH-methylation)
 [![Coverage Status](https://coveralls.io/repos/github/MischaLundberg/CH-methylation/badge.svg?branch=master)](https://coveralls.io/github/MischaLundberg/CH-methylation?branch=master)
 
